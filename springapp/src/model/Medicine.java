@@ -7,6 +7,7 @@ public class Medicine {
     private int quantity;
     private String description;
 
-    
+    // Constructors, getters, setters
+    // ...
 
 }
