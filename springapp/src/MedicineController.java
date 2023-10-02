@@ -1,21 +1,36 @@
-
+import com.yourpackage.model.Medicine;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/medicines")
-public class MedicineController {
+public class IMedicineController {
+    private Map<Integer, Medicine> medicineMap = new HashMap<>();
+    private int currentId = 1;
 
-    private List<Medicine> medicineList = new ArrayList<>();
-
+    // Endpoint to add a new medicine
     @PostMapping
     public boolean addMedicine(@RequestBody Medicine medicine) {
-        // Add logic to add medicine to the system
-        // Return true if successful, otherwise false
+        medicine.setMedicineId(currentId++);
+        medicineMap.put(medicine.getMedicineId(), medicine);
+        return true;
     }
 
+    // Endpoint to update an existing medicine
     @PutMapping("/{medicineId}")
     public Medicine updateMedicine(@PathVariable int medicineId, @RequestBody Medicine updatedMedicine) {
-        // Add logic to update medicine with given ID
-        // Return the updated Medicine object
+        if (medicineMap.containsKey(medicineId)) {
+            Medicine existingMedicine = medicineMap.get(medicineId);
+            existingMedicine.setMedicineName(updatedMedicine.getMedicineName());
+            existingMedicine.setPrice(updatedMedicine.getPrice());
+            existingMedicine.setQuantity(updatedMedicine.getQuantity());
+            existingMedicine.setDescription(updatedMedicine.getDescription());
+            return existingMedicine;
+        }
+        return null; // Handle error when medicineId is not found
     }
 }
