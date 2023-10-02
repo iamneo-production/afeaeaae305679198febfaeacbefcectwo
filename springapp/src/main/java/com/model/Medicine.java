@@ -4,5 +4,4 @@ public class Medicine {
     private float price;
     private int quantity;
     private String description;
-
 }
